@@ -1,14 +1,31 @@
 public class Player
 {
     //variables
-    private int name;
+    private String name;
     private int health;
     private int mana;
-    private int maxMana;
-    private int level;
+    private static int maxMana
     //constructors
+    public Player()
+    {
+        name = null;
+        health = 0;
+        mana = 0;
+    }//end default constructor
+
+    public Player(String name, int health, int mana)
+    {
+        this.name = name;
+        this.health = health;
+        this.mana = mana;
+    }//end three argument constructor
 
     //getters
+    public String getName()
+    {
+        return name;
+    }
+
 
     //setters
 
