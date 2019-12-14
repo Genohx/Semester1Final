@@ -53,7 +53,6 @@ public class Potions
         Random rand = new Random();
         if(rand.nextInt(100) < 30)//30 being the critical heal chance
         {
-            System.out.println("You got a critical heal! Heal for double the amount!");
             return healAmount * 2;
         }
         else

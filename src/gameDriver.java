@@ -13,51 +13,227 @@ public class gameDriver
         Player player1 = new Player(playerName, 100, 0);//sets up the player character stats
         Potions potion = new Potions(3, 30);
 
+        //player1.setHealth(2);//debug for testing when player faints
 
-        boolean gameRunning = true;
+        int slimeLevelHealth = 30;
+        int slimesDefeated = 0;
 
-        while(gameRunning)
+        boolean gameRunning = true;//controls if the game is running
+
+        while(gameRunning)//starts game
         {
-            for(int level = 0; level<10; level++)//checks to see if player is level 10, which breaks the loop and initiates the next phase(the boss fight)
+            while(player1.getHealth()>0 && slimesDefeated<5)//while the player is alive AND while the number of slimes defeated is less than 5
             {
-                int slimeHealth = 30;
-                Enemies slime = new Enemies("slime", slimeHealth);//sets up the enemy stats
-                System.out.println("--- A " + slime.getName() + " has appeared! ---");
-
-                while(slime.getHealth() > 0)
+                for(int level = 0; level<5 && player1.getHealth()>0; level++, slimesDefeated++)//checks to see if player is level 10, which breaks the loop and initiates the next phase(the boss fight)
                 {
-                    System.out.println("Your health: "+player1.getHealth());
-                    System.out.println("Your mana: "+player1.getMana());
-                    System.out.println("Slime's health: "+slime.getHealth());//BATTLE OPTIONS FOR THE PLAYER
-                    System.out.println("\nWhat action will you take?");
-                    System.out.println("1. Cast Icebolt\t  2. Cast Fireball\t3. Cast Explosion(requires 100 mana)\t4. Drink a health potion");
+                    int slimeHealth = slimeLevelHealth;
+                    Enemies slime = new Enemies("slime", slimeHealth);//sets up the enemy stats
+                    System.out.println("-------------------------------------");
+                    System.out.println("--- A level "+ level + " " + slime.getName() + " has appeared! ---");
 
-                    String input = keyboard.nextLine();
-                    if(input.equals("1"))
+                    while(slime.getHealth() > 0 && player1.getHealth()>0)
                     {
-                        System.out.println("You cast Icebolt at the slime!");
-                        
+                        System.out.println("-------------------------------------");
+                        System.out.println("Your health: "+player1.getHealth());
+                        System.out.println("Your mana: "+player1.getMana());
+                        System.out.println("Potions: "+potion.getPotAmount());
+                        System.out.println("Slime's health: "+slime.getHealth());//BATTLE OPTIONS FOR THE PLAYER
+                        System.out.println("\nWhat action will you take?");
+                        System.out.println("1. Cast Icebolt\t  2. Cast Fireball\t3. Cast Explosion(requires 100 mana)\t4. Drink a health potion");
+
+                        String input = keyboard.nextLine();
+
+                        if(input.equals("1"))
+                        {
+                            int damageDealt = player1.iceBolt();
+                            if(damageDealt == 4)
+                            {
+                                System.out.println("You got a critical hit with Icebolt, dealing double damage! The slime takes "+damageDealt+" damage.");
+                                slime.setHealth(slime.getHealth() - damageDealt);
+                            }
+                            else
+                            {
+                                System.out.println("You cast Icebolt at the slime! The slime takes "+damageDealt+" damage.");
+                                slime.setHealth(slime.getHealth() - damageDealt);
+                            }
+                            int damageTaken = slime.Attack();
+                            System.out.println("The slime retaliates! You take "+damageTaken+" damage.");
+                            player1.setHealth(player1.getHealth() - damageTaken);
+
+                            int generateMana = player1.getMana()+20;
+                            if(player1.getMana() >= player1.getMaxMana())
+                            {
+                                System.out.println("You have maximum mana, and cannot generate any more.");
+                                player1.setMana(player1.getMaxMana());
+                            }
+                            else
+                            {
+                                player1.setMana(generateMana);
+                                System.out.println("You generate 20 mana!");
+                            }
+
+
+                        }//end if - casts icebolt
+                        else if(input.equals("2"))
+                        {
+                            if(player1.getMana()>=20)
+                            {
+                                int damageDealt = player1.fireBall();
+                                if(damageDealt == 8)
+                                {
+                                    System.out.println("You got a critical hit with Fireball, dealing double damage! The slime takes "+damageDealt+" damage.");
+                                    slime.setHealth(slime.getHealth() - damageDealt);
+                                }
+                                else
+                                {
+                                    System.out.println("You cast Fireball at the slime! The slime takes "+damageDealt+" damage.");
+                                    slime.setHealth(slime.getHealth() - damageDealt);
+                                }
+                                int damageTaken = slime.Attack();
+                                System.out.println("The slime retaliates! You take "+damageTaken+" damage.");
+                                player1.setHealth(player1.getHealth() - damageTaken);
+
+                                player1.setMana(player1.getMana()-20);//uses 20 mana to cast Fireball
+                            }
+                            else
+                            {
+                                System.out.println("You don't have enough mana to cast Fireball!");
+                            }
+
+                        }//end if - casts fireball
+                        else if(input.equals("3"))
+                        {
+                            if(player1.getMana()<100)
+                            {
+                                System.out.println("You don't have enough mana to cast Explosion!");
+                            }//checks to see if the player has enough mana to cast explosion
+                            else if(player1.getMana()>100)
+                            {
+                                int damageDealt = player1.explosion();
+                                if(damageDealt == 16)
+                                {
+                                    System.out.println("You got a critical hit with Explosion, dealing double damage! The slime takes "+damageDealt+" damage.");
+                                    player1.setMana(0);
+                                    slime.setHealth(slime.getHealth() - damageDealt);
+                                }
+                                else
+                                {
+                                    System.out.println("You cast Explosion at the slime! The slime takes "+damageDealt+" damage.");
+                                    player1.setMana(0);
+                                    slime.setHealth(slime.getHealth() - damageDealt);
+                                }
+                                int damageTaken = slime.Attack();
+                                System.out.println("The slime retaliates! You take "+damageTaken+" damage.");
+                                player1.setHealth(player1.getHealth() - damageTaken);
+                            }
+                            else
+                            {
+                                int damageDealt = player1.explosion();
+                                if(damageDealt == 16)
+                                {
+                                    System.out.println("You got a critical hit with Explosion, dealing double damage! The slime takes "+damageDealt+" damage.");
+                                    player1.setMana(0);
+                                    slime.setHealth(slime.getHealth() - damageDealt);
+                                }
+                                else
+                                {
+                                    System.out.println("You cast Explosion at the slime! The slime takes "+damageDealt+" damage.");
+                                    player1.setMana(0);
+                                    slime.setHealth(slime.getHealth() - damageDealt);
+                                }
+                                int damageTaken = slime.Attack();
+                                System.out.println("The slime retaliates! You take "+damageTaken+" damage.");
+                                player1.setHealth(player1.getHealth() - damageTaken);
+                            }//casts explosion
+                        }//end if - casts explosion
+                        else if(input.equals("4"))
+                        {
+                            if(potion.getPotAmount()>0)
+                            {
+                                int drinkPot = potion.usePotion();
+                                potion.setPotAmount(potion.getPotAmount() - 1);
+                                if(player1.getHealth() == player1.getMaxHealth())
+                                {
+                                    System.out.println("You are at max health!");
+                                    potion.setPotAmount(potion.getPotAmount()+1);//gives them their potion back since it didn't heal
+                                }//checks if the player is at max health already
+                                else if(drinkPot == 60 && player1.getHealth() > (player1.getMaxHealth()-60))
+                                {
+                                    System.out.println("You got a critical heal! Heal for double the amount!");
+                                    player1.setHealth(player1.getMaxHealth());
+                                    System.out.println("You are healed to full health");
+                                }
+                                else if(player1.getHealth() > (player1.getMaxHealth()-30))//if player health is less than/equal to 30 less than maximum health
+                                {
+                                    player1.setHealth(player1.getMaxHealth());
+                                    System.out.println("You are healed to full health");
+                                }//checks if the player has taken only 30 or less damage, in which case it heals them to full instead of over-healing
+                                else
+                                {
+                                    if(drinkPot == 60)
+                                    {
+                                        System.out.println("You got a critical heal! Heal for double the amount!");
+                                        System.out.println("You healed for "+drinkPot);
+                                        player1.setHealth(player1.getHealth() + drinkPot);
+                                    }
+                                    else
+                                    {
+                                        System.out.println("You healed for "+drinkPot);
+                                        player1.setHealth(player1.getHealth() + drinkPot);
+                                    }
+                                }//heals the player for 30(60 if it is a critical heal)
+                            }
+                            else
+                            {
+                                System.out.println("You have no health potions!(Reminder: defeated enemies have a chance to drop potions ;) )");
+                            }
+                        }
+                        else
+                        {
+                            System.out.println("Invalid command entered!");
+                        }
+                        //slime.setHealth(0); //testing the commands
                     }
-                    else if(input.equals("2"))
+                    if(player1.getHealth()>0)
                     {
-
-                    }
-                    else if(input.equals("3"))
-                    {
-
+                        System.out.println("-------------------------------------");
+                        System.out.println("\nYou leveled up! +10 to health and +10 to maximum mana!(Explosion is empowered when used over 100 mana!)");
+                        player1.level(level);
+                        slimeLevelHealth = slimeLevelHealth + 5;
                     }
                     else
                     {
-
+                        break;
                     }
-                    slime.setHealth(0);
                 }
-                level = 10;
-            }
 
-            gameRunning=false;
+            }
+            if(player1.getHealth()<=0)
+            {
+                System.out.println("\nYour health has dropped below 0.");
+                System.out.println("You have fainted and are returned to the priests to be healed...\n\n--- GAME OVER ---");
+            }
+            else
+            {
+                System.out.println("Guard: Wow! You did it! You successfully defended Rowan Kingdom from the invasion of Slimes! I'm sure the king would like to thank you himself\n*The guard brings the king forth*\n" +
+                        "King Rowan: Thank you, wizard, for defending my kingdom. We owe you a great debt.\n\n CONGRATULATIONS, YOU BEAT THE GAME!");
+            }
+            gameRunning = false;
+
         }
 
+//        if(player1.getHealth()<0)
+//        {
+//            System.out.println("\nYour health has dropped below 0.");
+//            System.out.println("You have fainted and are returned to the priests to be healed...\n\n--- GAME OVER ---");
+//            gameRunning = false;
+//        }
+//        else
+//        {
+//            System.out.println("Guard: Wow! You did it! You successfully defended Rowan Kingdom from the invasion of Slimes! I'm sure the king would like to thank you himself\n*The guard brings the king forth*\n" +
+//                    "King Rowan: Thank you, wizard, for defending my kingdom. We owe you a great debt.\n\n CONGRATULATIONS, YOU BEAT THE GAME!");
+//        }
+//        gameRunning = false;
 
 //        int damageTaken = player1.getHealth() - slime.Attack();
 //        player1.setHealth(damageTaken);

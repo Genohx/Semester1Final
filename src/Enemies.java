@@ -40,14 +40,14 @@ public class Enemies implements levelUp
 
     public void level(int level)
     {
-        health = health + (level * 10); //increase enemy health by 10 when they level up
+        health = health + (level + 5); //increase enemy health by 10 when they level up
         maxDamage = maxDamage * (level); //increase enemy damage by 5 when they level up
     }
 
     public int Attack()
     {
         Random rand = new Random();
-        return rand.nextInt(maxDamage);
+        return rand.nextInt(maxDamage) + 1;
     }
 
     public String toString()

@@ -7,6 +7,7 @@ public class Player implements levelUp {
     private int mana;
     private static int maxMana = 100;
     private static int critChance = 30;
+    private static int maxHealth = 100;
 
     //constructors
     public Player() {
@@ -33,6 +34,14 @@ public class Player implements levelUp {
     public int getMana() {
         return mana;
     }
+    public int getMaxMana()
+    {
+        return maxMana;
+    }
+    public int getMaxHealth()
+    {
+        return maxHealth;
+    }
 
     //setters
     public void setName(String newName) {
@@ -50,7 +59,7 @@ public class Player implements levelUp {
     //method for leveling up
     public void level(int level)
     {
-        health = health + (level * 10); //increase player health by 10 when they level up
+        maxHealth = maxHealth + (level * 10); //increase player health by 10 when they level up
         maxMana = maxMana + (level * 10); //increase player mana by 10 when they level up
     }
 
