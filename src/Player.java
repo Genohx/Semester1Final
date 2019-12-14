@@ -47,6 +47,13 @@ public class Player implements levelUp {
         mana = newMana;
     }
 
+    //method for leveling up
+    public void level(int level)
+    {
+        health = health + (level * 10); //increase player health by 10 when they level up
+        maxMana = maxMana + (level * 10); //increase player mana by 10 when they level up
+    }
+
     //method for icebolt damage
     public int iceBolt()
     {
@@ -54,7 +61,6 @@ public class Player implements levelUp {
         int iceDamage = 2;
         if(rand.nextInt(100) < critChance)
         {
-            System.out.println("You landed a critical hit! You dealt double damage!");
             return iceDamage * 2;
         }
         else
@@ -63,15 +69,34 @@ public class Player implements levelUp {
         }
     }
     //method for fireball damage
-
-    //method for explosion damage
-
-    //method for leveling up
-    public void level(int level)
+    public int fireBall()
     {
-        health = health + (level * 10); //increase player health by 10 when they level up
-        maxMana = maxMana + (level * 10); //increase player mana by 10 when they level up
+        Random rand = new Random();
+        int fireDamage = 4;
+        if(rand.nextInt(100) < critChance)
+        {
+            return fireDamage * 2;
+        }
+        else
+        {
+            return fireDamage;
+        }
     }
+    //method for explosion damage
+    public int explosion()
+    {
+        Random rand = new Random();
+        int exploDamage = 8;
+        if(rand.nextInt(100) < critChance)
+        {
+            return exploDamage * 2;
+        }
+        else
+        {
+            return exploDamage;
+        }
+    }
+
     //toString
     public String toString()
     {
