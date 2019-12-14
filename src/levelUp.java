@@ -1,4 +1,4 @@
 public interface levelUp
 {
-    public void level();//called when either the player or the enemies level up
+    public void level(int level);//called when the player and enemy level up
 }

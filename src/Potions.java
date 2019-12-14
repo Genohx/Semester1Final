@@ -3,7 +3,7 @@ public class Potions
     //variables
     private int potAmount;
     private int healAmount;
-    private int dropChance;
+    private static int dropChance;
     //constructors
 
     //getters
