@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class gameDriver {
     public static void main(String[] args) {
         Scanner keyboard = new Scanner(System.in);
-        System.out.println("Guard: You there! Wizard! Thank the heavens you answered out plea! Our kingdom is currently being attacked by a horde of slime!" +
+        System.out.println("Guard: You there! Wizard! Thank the heavens you answered our plea! Our kingdom is currently being attacked by a horde of slime!" +
                 "\n\nGuard: I see you're ready to start fighting, so I'll let you get right to it! But before I do, may I ask your name so I may report it to King Rowan?" +
                 "\n\n(Enter your name)");//intro
         String playerName = keyboard.nextLine();//player enters their name
@@ -11,7 +11,7 @@ public class gameDriver {
         Player player1 = new Player(playerName, 100, 0);//sets up the player character stats
         Potions potion = new Potions(3, 30);
 
-        player1.setHealth(2);//debug for testing when player faints
+        //player1.setHealth(2);//debug for testing when player faints
 
         int slimeLevelHealth = 30;
         int slimesDefeated = 0;
