@@ -96,13 +96,28 @@ public class Player implements levelUp {
     {
         Random rand = new Random();
         int exploDamage = 8;
-        if(rand.nextInt(100) < critChance)
+        int damOver100 = 24;
+        if(getMana()>100)
         {
-            return exploDamage * 2;
+            if(rand.nextInt(100) < critChance)
+            {
+                return damOver100 * 2;
+            }
+            else
+            {
+                return damOver100;
+            }
         }
         else
         {
-            return exploDamage;
+            if(rand.nextInt(100) < critChance)
+            {
+                return exploDamage * 2;
+            }
+            else
+            {
+                return exploDamage;
+            }
         }
     }
 

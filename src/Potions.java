@@ -40,11 +40,11 @@ public class Potions
         if(rand.nextInt(100) < 50)//50 being the drop chance
         {
             setPotAmount(getPotAmount()+1);
-            return "You got a potion from the enemy!";
+            return "You loot the enemy and find a health potion!";
         }
         else
         {
-            return "";
+            return "You loot the enemy and find nothing :(";
         }
     }
     //method for using a potion
