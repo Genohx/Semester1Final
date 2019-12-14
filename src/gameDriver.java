@@ -57,7 +57,13 @@ public class gameDriver {
                             if (player1.getMana() >= player1.getMaxMana()) {
                                 System.out.println("You have maximum mana, and cannot generate any more.");
                                 player1.setMana(player1.getMaxMana());
-                            } else {
+                            }
+                            else if (player1.getMana() == player1.getMaxMana() - 10)
+                            {
+                                player1.setMana(player1.getMaxMana());
+                                System.out.println("You generate 10 mana, and are at full mana!");
+                            }
+                            else  {
                                 player1.setMana(generateMana);
                                 System.out.println("You generate 20 mana!");
                             }
@@ -172,7 +178,7 @@ public class gameDriver {
                     potion.setPotAmount(potion.getPotAmount() + 3);
                     System.out.println("*The ogre approaches you, towering over you. Time for battle!");
                 }
-                Enemies boss = new Enemies("Ogre", 2);//sets up the enemy stats                                                                                                                                                               // BOSS FIGHT TIME!
+                Enemies boss = new Enemies("Ogre", 200);//sets up the enemy stats                                                                                                      // BOSS FIGHT TIME!
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 while (boss.getHealth() > 0 && player1.getHealth() > 0) {
                     System.out.println("-------------------------------------");
@@ -202,7 +208,13 @@ public class gameDriver {
                         if (player1.getMana() >= player1.getMaxMana()) {
                             System.out.println("You have maximum mana, and cannot generate any more.");
                             player1.setMana(player1.getMaxMana());
-                        } else {
+                        }
+                        else if (player1.getMana() == player1.getMaxMana() - 10)
+                        {
+                            player1.setMana(player1.getMaxMana());
+                            System.out.println("You generate 10 mana, and are at full mana!");
+                        }
+                        else {
                             player1.setMana(generateMana);
                             System.out.println("You generate 20 mana!");
                         }
